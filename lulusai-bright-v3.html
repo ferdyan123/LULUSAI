@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LulusAI — Selesaikan Skripsimu Sebelum Deadline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,600;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:    #FFFFFF;
+  --bg:       #F8F9FA;
+  --bg2:      #EFF3F8;
+  --green:    #1B7A4E;
+  --green2:   #23A366;
+  --green3:   #2DC97E;
+  --green-l:  #E6F7EF;
+  --green-m:  #C2EDD7;
+  --yellow:   #F5A623;
+  --yellow-l: #FEF3DC;
+  --yellow-m: #FDDFA0;
+  --blue:     #2B6CB0;
+  --blue-l:   #EBF4FF;
+  --red:      #C53030;
+  --red-l:    #FFF5F5;
+  --ink:      #1A202C;
+  --ink2:     #2D3748;
+  --muted:    #718096;
+  --muted2:   #A0AEC0;
+  --border:   #E2E8F0;
+  --border2:  #CBD5E0;
+  --shadow:   0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* ── UTILITIES ── */
+.serif{font-family:'Playfair Display',serif}
+.mono{font-family:'JetBrains Mono',monospace}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.wrap-sm{max-width:740px;margin:0 auto;padding:0 1.5rem}
+.txt-center{text-align:center}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.nav-in{
+  max-width:1100px;margin:0 auto;height:60px;
+  display:flex;align-items:center;
+  justify-content:space-between;padding:0 1.5rem;
+}
+.nav-logo{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:1.5rem;color:var(--green);
+  display:flex;align-items:center;gap:6px;letter-spacing:-.5px;
+}
+.nav-logo span{color:var(--ink)}
+.nav-links{display:flex;gap:1.75rem}
+.nav-link{
+  font-size:14px;font-weight:600;color:var(--muted);
+  transition:color .15s;
+}
+.nav-link:hover{color:var(--green)}
+.btn-nav{
+  background:var(--green);color:#fff;
+  padding:10px 24px;border-radius:10px;
+  font-size:14px;font-weight:800;
+  transition:all .2s;box-shadow:0 2px 8px rgba(27,122,78,.3);
+}
+.btn-nav:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(27,122,78,.35)}
+
+/* ── HERO ── */
+.hero{
+  padding:7rem 1.5rem 5rem;
+  background:linear-gradient(175deg,#fff 0%,#F0FAF5 50%,#fff 100%);
+  position:relative;overflow:hidden;min-height:100vh;
+  display:flex;align-items:center;
+}
+/* Background pattern */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--green-l) 1px,transparent 1px),
+    linear-gradient(90deg,var(--green-l) 1px,transparent 1px);
+  background-size:60px 60px;opacity:.5;pointer-events:none;
+}
+/* Top gradient fade */
+.hero::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:60px;
+  background:linear-gradient(to bottom,#fff,transparent);
+  pointer-events:none;
+}
+.hero-in{
+  max-width:1100px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 480px;
+  gap:4rem;align-items:center;position:relative;z-index:1;
+}
+
+/* LEFT */
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green-l);border:1.5px solid var(--green-m);
+  border-radius:100px;padding:6px 16px;
+  font-size:12.5px;font-weight:700;color:var(--green);
+  margin-bottom:1.5rem;letter-spacing:-.1px;
+}
+.hero-eyebrow-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green3);
+  animation:blink 1.5s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── POPUP NOTIFIKASI PEMBELIAN ── */
+.popup-notif{
+  position:fixed;bottom:16px;left:16px;z-index:9999;
+  background:#fff;border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,.13),0 1px 4px rgba(0,0,0,.07);
+  border:1px solid var(--border);
+  padding:10px 12px;
+  display:flex;align-items:center;gap:9px;
+  max-width:270px;min-width:220px;
+  transform:translateX(-120%);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+.popup-notif.show{
+  transform:translateX(0);
+  pointer-events:all;
+}
+.popup-close{
+  position:absolute;top:6px;right:7px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .15s;
+  font-size:8px;color:var(--muted);line-height:1;
+}
+.popup-close:hover{background:var(--border)}
+.popup-thumb{
+  width:40px;height:40px;border-radius:8px;
+  background:linear-gradient(135deg,#0D4D2C,#1B7A4E);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;flex-shrink:0;
+  position:relative;
+}
+.popup-thumb-logo{
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:.55rem;color:#fff;letter-spacing:-.2px;line-height:1;
+}
+.popup-thumb-logo em{color:var(--green3);font-style:normal}
+.popup-thumb-sub{
+  font-size:5px;color:rgba(255,255,255,.45);
+  font-weight:600;letter-spacing:.3px;margin-top:1px;
+}
+.popup-thumb-check{
+  position:absolute;bottom:-3px;right:-3px;
+  width:13px;height:13px;border-radius:50%;
+  background:var(--green3);border:1.5px solid #fff;
+  display:flex;align-items:center;justify-content:center;
+}
+.popup-thumb-check svg{width:7px;height:7px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round}
+.popup-content{flex:1;min-width:0}
+.popup-header{
+  display:flex;align-items:center;gap:4px;
+  margin-bottom:2px;
+}
+.popup-fire{font-size:10px}
+.popup-verified{
+  font-size:8.5px;font-weight:800;color:var(--green);
+  letter-spacing:.3px;text-transform:uppercase;
+}
+.popup-name{
+  font-size:12px;font-weight:800;color:var(--ink);
+  margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.popup-action{
+  font-size:10.5px;color:var(--muted);font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.popup-action strong{color:var(--ink);font-weight:700}
+.popup-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:4px;
+}
+.popup-price{
+  font-size:11.5px;font-weight:800;color:var(--green);
+}
+.popup-time{
+  font-size:10px;color:var(--muted2);font-weight:500;
+}
+.popup-bar{
+  height:2px;background:var(--border);border-radius:2px;
+  margin-top:6px;overflow:hidden;
+}
+.popup-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--green),var(--green3));
+  border-radius:2px;
+  animation:popup-drain 6s linear forwards;
+}
+@keyframes popup-drain{from{width:100%}to{width:0%}}
+
+.hero-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,4vw,3.75rem);
+  font-weight:900;line-height:1.08;
+  letter-spacing:-.5px;color:var(--ink);
+  margin-bottom:1.25rem;
+}
+.hero-h1 .hi{font-style:italic;color:var(--green)}
+.hero-h1 .hy{
+  font-style:italic;color:var(--yellow);
+  background:var(--yellow-l);
+  padding:0 8px;border-radius:6px;
+}
+
+.hero-sub{
+  font-size:1.05rem;color:var(--ink2);line-height:1.75;
+  max-width:500px;margin-bottom:2rem;font-weight:400;
+}
+.hero-sub strong{font-weight:800;color:var(--ink)}
+
+/* PAIN CHECKLIST */
+.hero-pains{
+  display:flex;flex-direction:column;gap:9px;margin-bottom:2.25rem;
+}
+.pain-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14px;color:var(--ink2);font-weight:600;
+  line-height:1.4;
+}
+.pain-x{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--red-l);border:1.5px solid rgba(197,48,48,.2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.pain-x svg{width:9px;height:9px;stroke:var(--red);stroke-width:2.5;stroke-linecap:round;fill:none}
+
+/* CTA */
+.hero-cta-wrap{display:flex;flex-direction:column;gap:.75rem}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--green);color:#fff;
+  padding:16px 36px;border-radius:12px;
+  font-size:16px;font-weight:800;
+  border:none;cursor:pointer;
+  font-family:'Nunito',sans-serif;
+  transition:all .22s;
+  box-shadow:0 4px 20px rgba(27,122,78,.35);
+  align-self:flex-start;
+}
+.btn-hero:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(27,122,78,.4)}
+.btn-hero svg{width:18px;height:18px;transition:transform .2s}
+.btn-hero:hover svg{transform:translateX(4px)}
+.cta-trust{
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;color:var(--muted);font-weight:600;
+}
+.cta-trust::before{
+  content:'🔒';font-size:13px;
+}
+
+/* RIGHT — MOCKUP */
+.hero-right{position:relative}
+.hero-card{
+  background:#fff;border-radius:20px;
+  box-shadow:var(--shadow-lg);
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+.hc-header{
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;gap:.875rem;
+}
+.hc-av{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-family:'Playfair Display',serif;
+  font-style:italic;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.hc-name{font-size:14.5px;font-weight:800;color:#fff}
+.hc-role{font-size:11.5px;color:rgba(255,255,255,.7);font-weight:500}
+.hc-status{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;color:rgba(255,255,255,.7);
+  margin-left:auto;font-weight:500;
+}
+.hc-dot{width:6px;height:6px;border-radius:50%;background:#48E896}
+.hc-body{padding:1.25rem;display:flex;flex-direction:column;gap:.875rem;max-height:400px;overflow:hidden}
+/* chat messages */
+.msg{display:flex;gap:.75rem;max-width:90%}
+.msg.me{align-self:flex-end;flex-direction:row-reverse}
+.msg-av{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10.5px;font-weight:800;flex-shrink:0;color:#fff;
+}
+.msg-av-ai{background:var(--green)}
+.msg-av-me{background:var(--blue)}
+.msg-bub{
+  border-radius:14px;padding:.75rem 1rem;
+  font-size:13px;line-height:1.55;font-weight:500;
+}
+.msg-bub-ai{
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--ink2);border-bottom-left-radius:4px;
+}
+.msg-bub-me{
+  background:var(--blue);color:#fff;
+  border-bottom-right-radius:4px;
+}
+.msg-tag{
+  font-size:9.5px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--green);margin-bottom:4px;
+}
+.msg-result{
+  background:#fff;border:1.5px solid var(--green-m);
+  border-radius:10px;padding:.875rem;
+  margin-top:.625rem;font-size:12px;
+  line-height:1.7;color:var(--ink2);
+}
+.msg-result strong{color:var(--ink);font-weight:800}
+.msg-result .tag-good{
+  display:inline-block;background:var(--green-l);
+  color:var(--green);font-size:10.5px;font-weight:700;
+  padding:2px 8px;border-radius:4px;margin-top:.375rem;
+}
+/* floating badges */
+.float-badge{
+  position:absolute;background:#fff;
+  border-radius:12px;padding:.75rem 1rem;
+  box-shadow:var(--shadow-lg);
+  border:1px solid var(--border);
+  display:flex;align-items:center;gap:.625rem;
+  font-size:12.5px;font-weight:700;color:var(--ink);
+}
+.fb-top{top:-20px;right:-20px}
+.fb-bottom{bottom:30px;left:-30px}
+.fb-ic{font-size:1.25rem}
+.fb-sub{font-size:10.5px;font-weight:500;color:var(--muted);display:block;margin-top:1px}
+
+/* ── TICKER TRUST ── */
+.ticker{
+  background:var(--green);padding:.875rem 0;overflow:hidden;
+  border-top:2px solid var(--green2);border-bottom:2px solid var(--green2);
+}
+.ticker-in{
+  display:flex;gap:3rem;animation:slide 18s linear infinite;
+  white-space:nowrap;width:max-content;
+}
+.ticker-item{
+  display:flex;align-items:center;gap:.625rem;
+  font-size:13px;font-weight:700;color:rgba(255,255,255,.85);
+}
+.ticker-item::before{content:'✦';color:var(--green3);font-size:11px}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTION BASE ── */
+.sec{padding:5.5rem 0}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12px;font-weight:800;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--green);margin-bottom:1rem;
+}
+.sec-tag::before{content:'';width:18px;height:2px;background:var(--green);border-radius:1px}
+.sec-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.875rem,3.5vw,2.875rem);
+  font-weight:900;line-height:1.1;
+  color:var(--ink);margin-bottom:.875rem;letter-spacing:-.3px;
+}
+.sec-h em{font-style:italic;color:var(--green)}
+.sec-h .y{font-style:italic;color:var(--yellow)}
+.sec-sub{
+  font-size:1rem;color:var(--muted);line-height:1.75;
+  max-width:500px;font-weight:500;
+}
+
+/* ── PROBLEM ── */
+.problem-sec{background:#fff}
+.scenario-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.25rem;margin-top:3.5rem;
+}
+.sc-card{
+  border-radius:16px;padding:1.75rem;
+  border:1.5px solid var(--border);
+  background:var(--bg);
+  transition:all .22s;cursor:default;
+  position:relative;overflow:hidden;
+}
+.sc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:16px 16px 0 0;
+}
+.sc-card.s1::before{background:linear-gradient(90deg,#FC8181,#F56565)}
+.sc-card.s2::before{background:linear-gradient(90deg,#F6AD55,#ED8936)}
+.sc-card.s3::before{background:linear-gradient(90deg,#76E4F7,#0BC5EA)}
+.sc-card.s4::before{background:linear-gradient(90deg,#B794F4,#9F7AEA)}
+.sc-card:hover{background:#fff;border-color:var(--border2);transform:translateY(-3px);box-shadow:var(--shadow)}
+.sc-time{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:500;color:var(--muted2);
+  letter-spacing:.5px;margin-bottom:.625rem;
+  display:flex;align-items:center;gap:6px;
+}
+.sc-time::before{content:'📍';font-size:12px}
+.sc-h{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:.5rem;line-height:1.35}
+.sc-body{font-size:13px;color:var(--muted);line-height:1.6;font-weight:500}
+.sc-quote{
+  margin-top:.875rem;padding:.75rem 1rem;
+  border-left:3px solid var(--border2);
+  font-size:12.5px;color:var(--muted);
+  font-style:italic;line-height:1.55;
+  background:#fff;border-radius:0 8px 8px 0;
+}
+.sc-quote strong{font-style:normal;color:var(--ink);font-weight:700}
+.sc-after{
+  margin-top:.875rem;display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;color:var(--green);
+  background:var(--green-l);border-radius:6px;
+  padding:5px 12px;border:1px solid var(--green-m);
+  width:fit-content;
+}
+.sc-after::before{content:'✓';color:var(--green)}
+
+/* ── AGITATION ── */
+.agit-sec{background:var(--bg2)}
+.agit-timeline{
+  display:flex;flex-direction:column;gap:0;
+  margin-top:3.5rem;
+  border-left:2px dashed var(--border2);
+  margin-left:16px;padding-left:0;
+}
+.at-item{
+  padding:0 0 2.5rem 2.5rem;position:relative;
+}
+.at-item:last-child{padding-bottom:0}
+.at-item::before{
+  content:'';position:absolute;left:-9px;top:4px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--bg2);border:2.5px solid var(--border2);
+  transition:border-color .2s;
+}
+.at-item:hover::before{border-color:var(--green)}
+.at-phase{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--yellow);
+  margin-bottom:.5rem;
+  background:var(--yellow-l);border-radius:4px;
+  padding:2px 8px;display:inline-block;border:1px solid var(--yellow-m);
+}
+.at-h{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;font-style:italic;
+  color:var(--ink);margin-bottom:.5rem;line-height:1.25;
+}
+.at-desc{font-size:13.5px;color:var(--muted);line-height:1.65;font-weight:500;max-width:600px}
+.at-cost{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:.875rem;background:var(--red-l);
+  border:1px solid rgba(197,48,48,.15);border-radius:6px;
+  padding:4px 12px;font-size:12px;font-weight:700;color:var(--red);
+}
+
+/* COMPARISON HIGHLIGHT */
+.compare-highlight{
+  background:linear-gradient(135deg,#fff8e6,#f0faf5);
+  border:2px solid var(--green-m);border-radius:16px;
+  padding:2rem;margin-top:2.5rem;
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:1.5rem;align-items:center;
+  box-shadow:var(--shadow);
+}
+.ch-side{text-align:center}
+.ch-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);margin-bottom:.5rem}
+.ch-price{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:2rem;font-weight:700;line-height:1;
+}
+.ch-price.bad{color:var(--red)}
+.ch-price.good{color:var(--green)}
+.ch-note{font-size:11.5px;color:var(--muted);margin-top:.375rem;font-weight:500}
+.ch-vs{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.75rem;color:var(--muted2);
+}
+
+/* ── SOLUTION INTRO ── */
+.sol-sec{background:#fff}
+.sol-intro-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:3.5rem;align-items:center;margin-top:3.5rem;
+  padding-bottom:4rem;border-bottom:2px dashed var(--border);
+}
+
+/* 3 BOOKS VISUAL */
+.books-wrap{
+  display:flex;align-items:flex-end;
+  justify-content:center;gap:1.25rem;
+  perspective:700px;padding:1.5rem 0 3rem;
+}
+.bk-unit{
+  display:flex;flex-direction:column;
+  align-items:center;gap:.75rem;
+}
+.bk-unit:nth-child(2){transform:translateY(-16px)}
+.book3d{
+  position:relative;transform-style:preserve-3d;
+  transition:transform .35s;cursor:pointer;
+}
+.book3d:hover{transform:scale(1.04) rotateY(-5deg)}
+.bk-front{
+  width:130px;height:170px;
+  border-radius:2px 8px 8px 2px;
+  overflow:hidden;display:flex;flex-direction:column;
+  position:relative;
+}
+.bk-front::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    0deg,transparent,transparent 18px,
+    rgba(255,255,255,.05) 18px,rgba(255,255,255,.05) 19px
+  );pointer-events:none;
+}
+.bk1-f{background:linear-gradient(155deg,#0D4D2C,#1B7A4E)}
+.bk2-f{background:linear-gradient(155deg,#1A2560,#2B4380)}
+.bk3-f{background:linear-gradient(155deg,#7A4200,#C47B1A)}
+.bk-rim{position:absolute;inset:7px;border:1px solid rgba(255,255,255,.12);pointer-events:none}
+.bk-in{position:relative;z-index:1;flex:1;padding:1rem .875rem;display:flex;flex-direction:column}
+.bk-lbl{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.5rem}
+.bk-t{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;line-height:1.15;margin-bottom:.25rem}
+.bk1-f .bk-t{color:#7FFFC4}
+.bk2-f .bk-t{color:#90CAF9}
+.bk3-f .bk-t{color:#FFD580}
+.bk-div{height:1px;background:rgba(255,255,255,.1);margin:.625rem 0}
+.bk-list{display:flex;flex-direction:column;gap:4px;flex:1}
+.bk-li{font-size:7.5px;color:rgba(255,255,255,.35);display:flex;align-items:flex-start;gap:4px;line-height:1.35}
+.bk-li::before{content:'';width:3px;height:3px;border-radius:50%;flex-shrink:0;margin-top:3.5px}
+.bk1-f .bk-li::before{background:#7FFFC4;opacity:.5}
+.bk2-f .bk-li::before{background:#90CAF9;opacity:.5}
+.bk3-f .bk-li::before{background:#FFD580;opacity:.5}
+.bk-btm{border-top:1px solid rgba(255,255,255,.08);padding-top:.5rem;margin-top:.375rem;display:flex;justify-content:space-between;align-items:center}
+.bk-cnt{font-family:'JetBrains Mono',monospace;font-size:7px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.5px}
+.bk-p{font-family:'Playfair Display',serif;font-style:italic;font-size:.8rem}
+.bk1-f .bk-p{color:#7FFFC4}.bk2-f .bk-p{color:#90CAF9}.bk3-f .bk-p{color:#FFD580}
+.bk-spine{position:absolute;top:0;bottom:0;right:100%;width:12px;border-radius:3px 0 0 3px;transform-origin:right;transform:rotateY(90deg) translateX(-6px)}
+.bk1-f+.bk-spine,.bk-unit:nth-child(1) .bk-spine{background:linear-gradient(90deg,#081E11,#0D4D2C)}
+.bk-unit:nth-child(2) .bk-spine{background:linear-gradient(90deg,#0B1030,#1A2560)}
+.bk-unit:nth-child(3) .bk-spine{background:linear-gradient(90deg,#2E1800,#7A4200)}
+.bk-pages{position:absolute;top:2px;bottom:2px;left:100%;width:4px;border-radius:0 2px 2px 0;background:repeating-linear-gradient(0deg,#EAE6E0,#EAE6E0 1px,#DDD8CF 1px,#DDD8CF 2px);transform-origin:left;transform:rotateY(-90deg) translateX(2px)}
+.bk-name{font-size:12px;font-weight:800;color:var(--ink);text-align:center}
+.bk-tag{font-size:10.5px;color:var(--muted);text-align:center;font-weight:600}
+
+/* SOL POINTS */
+.sol-pts{display:flex;flex-direction:column;gap:1.125rem}
+.sol-pt{
+  display:flex;gap:1rem;padding:1.25rem;
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:14px;align-items:flex-start;
+  transition:all .2s;
+}
+.sol-pt:hover{background:#fff;border-color:var(--green-m);box-shadow:var(--shadow)}
+.sol-ic{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.sol-pt-title{font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.sol-pt-desc{font-size:13px;color:var(--muted);line-height:1.55;font-weight:500}
+.sol-proof{
+  margin-top:.5rem;font-size:11.5px;font-weight:700;color:var(--green);
+  display:flex;align-items:center;gap:4px;
+}
+.sol-proof::before{content:'✓';font-size:10px}
+
+/* ── BUNDLE SECTION ── */
+.bundle-sec{background:var(--bg2)}
+.bundle-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;margin-top:3.5rem;
+}
+.bc{
+  background:#fff;border-radius:16px;
+  border:1.5px solid var(--border);overflow:hidden;
+  transition:all .22s;
+}
+.bc:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:transparent}
+.bc-top{padding:1.75rem 1.5rem 1.5rem;position:relative;overflow:hidden}
+.bc-top::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.bc1 .bc-top::before{background:linear-gradient(90deg,var(--green),var(--green3))}
+.bc2 .bc-top::before{background:linear-gradient(90deg,var(--blue),#63B3ED)}
+.bc3 .bc-top::before{background:linear-gradient(90deg,var(--yellow),#F6E05E)}
+.bc-icon{font-size:2rem;margin-bottom:.875rem}
+.bc-num{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:.5rem}
+.bc-name{font-family:'Playfair Display',serif;font-style:italic;font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:.375rem}
+.bc-desc{font-size:12.5px;color:var(--muted);line-height:1.5;font-weight:500}
+.bc-body{padding:1.25rem 1.5rem;background:#fff}
+.bc-stats{display:flex;gap:.75rem;margin-bottom:1.125rem}
+.bs{flex:1;text-align:center;padding:.625rem;background:var(--bg);border-radius:8px}
+.bs-n{font-family:'Playfair Display',serif;font-style:italic;font-size:1.5rem;color:var(--ink);font-weight:700}
+.bs-l{font-size:10px;color:var(--muted2);margin-top:2px;font-weight:600}
+.bc-list{display:flex;flex-direction:column;gap:5px}
+.bcli{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.4}
+.bcdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.bc1 .bcdot{background:var(--green)}.bc2 .bcdot{background:var(--blue)}.bc3 .bcdot{background:var(--yellow)}
+
+/* ── HOW IT WORKS ── */
+.how-sec{background:#fff}
+.how-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1.5rem;margin-top:3.5rem;
+  position:relative;
+}
+.how-grid::before{
+  content:'';position:absolute;
+  top:28px;left:12.5%;right:12.5%;height:2px;
+  background:repeating-linear-gradient(
+    90deg,var(--green) 0,var(--green) 8px,
+    transparent 8px,transparent 18px
+  );opacity:.2;
+}
+.how-step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;position:relative;z-index:1;
+}
+.step-circle{
+  width:56px;height:56px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.5rem;font-weight:700;color:var(--green);
+  margin-bottom:1.125rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  transition:border-color .2s,box-shadow .2s;
+}
+.how-step:hover .step-circle{border-color:var(--green-m);box-shadow:0 4px 16px rgba(27,122,78,.15)}
+.step-title{font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:.375rem}
+.step-desc{font-size:12.5px;color:var(--muted);line-height:1.55;font-weight:500}
+
+/* ── DEMO SECTION ── */
+.demo-sec{background:var(--bg2)}
+.demo-box{
+  background:#fff;border-radius:20px;
+  border:1.5px solid var(--border);
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;margin-top:3.5rem;
+}
+.demo-bar{
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:.875rem 1.5rem;display:flex;align-items:center;gap:1rem;
+}
+.db-dots{display:flex;gap:5px}
+.db-dot{width:10px;height:10px;border-radius:50%}
+.db-url{
+  flex:1;background:#fff;border-radius:6px;
+  padding:4px 14px;font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--muted2);
+  border:1px solid var(--border);
+}
+.demo-chat{padding:2rem;display:flex;flex-direction:column;gap:1.375rem}
+.dc-msg{display:flex;gap:.875rem;max-width:88%}
+.dc-msg.me{align-self:flex-end;flex-direction:row-reverse}
+.dc-av{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;flex-shrink:0;color:#fff;
+}
+.dc-av-ai{background:var(--green)}
+.dc-av-me{background:var(--blue)}
+.dc-bub{
+  border-radius:14px;padding:.875rem 1.125rem;
+  font-size:13.5px;line-height:1.65;font-weight:500;
+}
+.dc-bub-ai{
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--ink2);border-bottom-left-radius:4px;
+}
+.dc-bub-me{background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.dc-lbl{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--green);margin-bottom:5px;
+}
+.dc-out{
+  background:#fff;border:1.5px solid var(--green-m);
+  border-radius:10px;padding:1rem;margin-top:.75rem;
+  font-size:13px;line-height:1.75;color:var(--ink2);
+}
+.dc-out strong{color:var(--ink);font-weight:800}
+
+/* ── FEATURES ── */
+.feat-sec{background:#fff}
+.feat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;margin-top:3.5rem;
+}
+.fc{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:14px;padding:1.75rem;
+  transition:all .22s;
+}
+.fc:hover{background:#fff;border-color:var(--green-m);transform:translateY(-3px);box-shadow:var(--shadow)}
+.fc-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1rem;font-size:1.375rem;
+}
+.fc-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:.5rem}
+.fc-desc{font-size:13px;color:var(--muted);line-height:1.6;font-weight:500}
+.fc-pill{
+  display:inline-block;margin-top:.875rem;
+  background:var(--green-l);color:var(--green);
+  border:1px solid var(--green-m);border-radius:100px;
+  font-size:11.5px;font-weight:700;padding:3px 12px;
+}
+
+/* ── SOCIAL PROOF ── */
+.proof-sec{background:var(--bg2)}
+.proof-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;margin-top:3.5rem;
+}
+.tcard{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:16px;padding:1.75rem;
+  transition:all .2s;
+}
+.tcard:hover{box-shadow:var(--shadow-lg);border-color:var(--green-m);transform:translateY(-2px)}
+.tc-stars{display:flex;gap:3px;margin-bottom:.875rem}
+.star{width:16px;height:16px;fill:var(--yellow)}
+.tc-q{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1rem;color:var(--ink);line-height:1.55;
+  margin-bottom:1.125rem;
+}
+.tc-q strong{font-style:normal;color:var(--green);font-weight:700}
+.tc-author{display:flex;align-items:center;gap:.75rem}
+.tc-av{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:#fff;flex-shrink:0;
+}
+.tc-name{font-size:13.5px;font-weight:800;color:var(--ink)}
+.tc-role{font-size:11.5px;color:var(--muted);font-weight:600}
+.tc-proof{
+  margin-top:.875rem;padding:.625rem .875rem;
+  background:var(--green-l);border-radius:8px;border:1px solid var(--green-m);
+  font-size:12px;color:var(--green);font-weight:700;
+  display:flex;align-items:center;gap:5px;
+}
+.tc-proof::before{content:'✓';font-size:11px;font-weight:900}
+
+/* ── WORTH IT / PRICING ── */
+.price-sec{background:#fff}
+.price-layout{
+  display:grid;grid-template-columns:1fr 400px;
+  gap:4rem;align-items:start;
+}
+.price-story .sec-h{margin-bottom:1rem}
+.price-story .sec-sub{margin-bottom:2rem}
+.compare-tbl{
+  display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;
+}
+.ct-row{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.25rem;background:var(--bg);
+  border:1.5px solid var(--border);border-radius:12px;
+}
+.ct-row.winner{background:var(--green-l);border-color:var(--green-m)}
+.ct-left{flex:1}
+.ct-name{font-size:13.5px;font-weight:700;color:var(--ink)}
+.ct-name small{display:block;font-size:11.5px;font-weight:500;color:var(--muted);margin-top:1px}
+.ct-price{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.375rem;font-weight:700;white-space:nowrap;
+}
+.ct-price.danger{color:var(--red)}
+.ct-price.win{color:var(--green);font-size:1.75rem}
+
+.price-box{
+  background:var(--bg);border:2px solid var(--green-m);
+  border-radius:20px;padding:2rem;
+  position:sticky;top:80px;
+  box-shadow:0 8px 40px rgba(27,122,78,.12);
+}
+.pb-badge{
+  background:var(--green);color:#fff;
+  font-size:11px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;padding:4px 14px;border-radius:100px;
+  display:inline-block;margin-bottom:1rem;
+}
+.pb-title{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.125rem;color:var(--ink);margin-bottom:1.25rem;
+}
+.pb-items{display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.375rem}
+.pbi{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.75rem 1rem;background:#fff;
+  border:1px solid var(--border);border-radius:10px;
+  font-size:13px;
+}
+.pbi-name{font-weight:700;color:var(--ink);flex:1}
+.pbi-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);font-weight:500}
+.pb-sep{height:1.5px;background:var(--border);margin:.5rem 0}
+.pb-total-row{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:.25rem;font-size:13px;color:var(--muted);font-weight:600;
+}
+.pb-total-val{font-size:.875rem;color:var(--muted);text-decoration:line-through}
+.pb-price-row{
+  display:flex;align-items:baseline;gap:8px;margin-bottom:.375rem;
+}
+.pb-price-lbl{font-size:13px;color:var(--muted);font-weight:700}
+.pb-price-val{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:3.5rem;font-weight:700;color:var(--ink);line-height:1;
+}
+.pb-save{
+  font-size:12.5px;font-weight:700;color:var(--green);
+  margin-bottom:1.25rem;display:flex;align-items:center;gap:5px;
+}
+.pb-save::before{content:'🎉'}
+
+/* URGENCY */
+.urgency{
+  background:var(--yellow-l);border:1.5px solid var(--yellow-m);
+  border-radius:12px;padding:1rem;margin-bottom:1.25rem;
+}
+.urg-top{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.5rem;
+}
+.urg-lbl{font-size:12px;font-weight:800;color:var(--yellow)}
+.urg-cnt{font-size:12px;font-weight:700;color:var(--ink)}
+.urg-bar{height:6px;background:var(--yellow-m);border-radius:3px;overflow:hidden;margin-bottom:.5rem}
+.urg-fill{height:100%;width:72%;background:linear-gradient(90deg,var(--yellow),#F6E05E);border-radius:3px}
+.urg-cd{display:flex;align-items:center;gap:.375rem}
+.urg-note{font-size:11.5px;color:var(--yellow);font-weight:700;flex:1}
+.cd-unit{
+  background:var(--ink);border-radius:6px;
+  padding:3px 8px;min-width:40px;text-align:center;
+}
+.cd-n{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.9rem;font-weight:500;color:#fff;
+  display:block;line-height:1.2;
+}
+.cd-l{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:rgba(255,255,255,.4);text-transform:uppercase}
+.cd-sep{color:var(--muted2);font-size:.75rem;font-weight:700}
+
+.btn-buy{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--green);color:#fff;
+  padding:16px;border-radius:12px;
+  font-size:16px;font-weight:800;width:100%;
+  font-family:'Nunito',sans-serif;
+  border:none;cursor:pointer;transition:all .22s;text-decoration:none;
+  box-shadow:0 4px 20px rgba(27,122,78,.3);
+}
+.btn-buy:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 8px 32px rgba(27,122,78,.35)}
+.pb-notes{
+  display:flex;flex-direction:column;gap:4px;margin-top:.875rem;
+}
+.pb-note{
+  font-size:12px;color:var(--muted);font-weight:600;
+  display:flex;align-items:center;gap:5px;
+}
+.pb-note::before{content:'✓';color:var(--green);font-size:10px;font-weight:900}
+
+/* ── BONUS ── */
+.bonus-sec{background:var(--bg2)}
+.bonus-highlight{
+  background:linear-gradient(135deg,#fff8e6,#f0faf5);
+  border:2px solid var(--yellow-m);border-radius:16px;
+  padding:1.5rem;margin-bottom:2.5rem;
+  display:flex;align-items:center;gap:1.25rem;
+  box-shadow:var(--shadow);
+}
+.bh-ic{font-size:2.5rem}
+.bh-title{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:2px}
+.bh-desc{font-size:13px;color:var(--muted);font-weight:500}
+.bonus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.125rem}
+.bonus-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:14px;padding:1.5rem;
+  position:relative;overflow:hidden;
+  transition:all .2s;
+}
+.bonus-card:hover{border-color:var(--yellow-m);box-shadow:var(--shadow)}
+.bonus-card::after{
+  content:'BONUS';position:absolute;top:.875rem;right:.875rem;
+  font-size:9px;font-weight:800;letter-spacing:1.5px;
+  color:var(--yellow);background:var(--yellow-l);
+  padding:2px 8px;border-radius:4px;border:1px solid var(--yellow-m);
+}
+.bonus-emoji{font-size:1.625rem;margin-bottom:.75rem;display:block}
+.bonus-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:.375rem}
+.bonus-desc{font-size:12.5px;color:var(--muted);line-height:1.5;font-weight:500}
+.bonus-val{
+  display:flex;align-items:center;gap:5px;margin-top:.75rem;
+  font-size:12px;font-weight:700;color:var(--green);
+}
+.bonus-val::before{content:'✦';font-size:10px}
+
+/* ── GUARANTEE ── */
+.guarantee-sec{background:#fff}
+.guarantee-box{
+  max-width:680px;margin:3rem auto 0;background:var(--bg);
+  border:2px solid var(--green-m);border-radius:20px;
+  padding:2.5rem;display:grid;grid-template-columns:auto 1fr;
+  gap:2rem;align-items:center;
+  box-shadow:0 8px 40px rgba(27,122,78,.08);
+}
+.g-seal{
+  width:96px;height:96px;border-radius:50%;
+  background:var(--green-l);border:3px solid var(--green-m);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;flex-shrink:0;text-align:center;
+}
+.gs-t{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green)}
+.gs-n{font-family:'Playfair Display',serif;font-style:italic;font-size:2.25rem;font-weight:900;color:var(--ink);line-height:1}
+.gs-b{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green)}
+.g-title{font-size:1.25rem;font-weight:800;color:var(--ink);margin-bottom:.5rem}
+.g-desc{font-size:13.5px;color:var(--muted);line-height:1.7;font-weight:500}
+
+/* ── FAQ ── */
+.faq-sec{background:var(--bg2)}
+.faq-list{max-width:700px;margin:3rem auto 0;display:flex;flex-direction:column;gap:.75rem}
+.fq{background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+.fq-q{
+  padding:1.125rem 1.5rem;font-weight:700;font-size:14.5px;color:var(--ink);
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;user-select:none;transition:background .15s;
+}
+.fq-q:hover{background:var(--bg)}
+.fq-ic{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--bg);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .2s;
+}
+.fq-ic svg{width:10px;height:10px;stroke:var(--ink);stroke-width:2;fill:none;stroke-linecap:round;transition:transform .2s}
+.fq.open .fq-ic{background:var(--green-l);border-color:var(--green-m)}
+.fq.open .fq-ic svg{stroke:var(--green);transform:rotate(180deg)}
+.fq-a{
+  display:none;padding:.75rem 1.5rem 1.25rem;font-size:13.5px;
+  color:var(--muted);line-height:1.7;border-top:1px solid var(--border);
+  font-weight:500;
+}
+.fq.open .fq-a{display:block}
+
+/* ── FINAL CTA ── */
+.final-sec{
+  background:linear-gradient(135deg,var(--green),#0D5C35);
+  padding:6.5rem 0;text-align:center;
+  position:relative;overflow:hidden;
+}
+.final-sec::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.06) 1.5px,transparent 1.5px);
+  background-size:28px 28px;pointer-events:none;
+}
+.final-in{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 1.5rem}
+.final-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
+  border-radius:100px;padding:5px 16px;
+  font-size:12px;font-weight:700;color:rgba(255,255,255,.9);
+  margin-bottom:1.5rem;letter-spacing:.5px;
+}
+.final-h{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(2.25rem,5vw,3.75rem);font-weight:700;
+  color:#fff;line-height:1.0;letter-spacing:-.5px;
+  margin-bottom:1.125rem;
+}
+.final-sub{
+  font-size:1.05rem;color:rgba(255,255,255,.75);
+  line-height:1.75;margin-bottom:2.25rem;font-weight:500;
+}
+.final-price{margin-bottom:2.25rem}
+.fp-was{font-size:1rem;color:rgba(255,255,255,.4);text-decoration:line-through;margin-bottom:.25rem}
+.fp-now{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:4.5rem;font-weight:700;color:#fff;line-height:1;
+  letter-spacing:-2px;
+}
+.btn-final{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#fff;color:var(--green);
+  padding:18px 44px;border-radius:14px;
+  font-size:17px;font-weight:900;
+  font-family:'Nunito',sans-serif;
+  transition:all .22s;border:none;cursor:pointer;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+}
+.btn-final:hover{background:var(--bg);transform:translateY(-2px);box-shadow:0 16px 48px rgba(0,0,0,.25)}
+.final-hints{
+  display:flex;align-items:center;justify-content:center;
+  gap:1.5rem;margin-top:1.25rem;flex-wrap:wrap;
+}
+.fh{font-size:13px;color:rgba(255,255,255,.55);font-weight:600;display:flex;align-items:center;gap:5px}
+.fh::before{content:'✓';color:rgba(255,255,255,.8);font-weight:900}
+
+/* FOOTER */
+footer{background:var(--ink);padding:2rem;text-align:center}
+.ft{font-size:12.5px;color:rgba(255,255,255,.25);line-height:1.7;font-weight:500}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-in,.sol-intro-grid,.price-layout{grid-template-columns:1fr;gap:3rem}
+  .hero-right{max-width:500px}
+  .bundle-grid,.proof-grid,.feat-grid{grid-template-columns:1fr}
+  .how-grid{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .how-grid::before{display:none}
+  .guarantee-box{grid-template-columns:1fr;text-align:center}
+  .price-box{position:static}
+  .scenario-row{grid-template-columns:1fr}
+  .bonus-grid{grid-template-columns:1fr}
+  .compare-highlight{grid-template-columns:1fr;text-align:center}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hero-h1{letter-spacing:-.25px}
+  .how-grid{grid-template-columns:1fr}
+}
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.hero-in>*{animation:fadeUp .65s ease both}
+.hero-in>*:nth-child(1){animation-delay:.06s}
+.hero-in>*:nth-child(2){animation-delay:.18s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <div class="nav-logo"><span>Lulus</span>AI</div>
+    <div class="nav-links">
+      <a onclick="goTo('masalah')" class="nav-link">Masalah</a>
+      <a onclick="goTo('solusi')" class="nav-link">Solusi</a>
+      <a onclick="goTo('fitur')" class="nav-link">Fitur</a>
+      <a onclick="goTo('worth-it')" class="nav-link">Harga</a>
+      <a onclick="goTo('faq')" class="nav-link">FAQ</a>
+    </div>
+    <a onclick="goTo('bundle-box')" class="btn-nav" style="cursor:pointer">Beli — Rp 99rb</a>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-in wrap">
+
+    <!-- LEFT -->
+    <div>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        Semester akhir harusnya exciting — bukan menyiksa
+      </div>
+
+      <h1 class="hero-h1">
+        Udah semester 7,<br>
+        skripsi <span class="hi">masih bab 1?</span><br>
+        Tenang. Kita<br>
+        <span class="hy">beresin bareng.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Bukan karena kamu nggak mampu. Tapi karena <strong>nggak ada yang ngajarin sistemnya.</strong>
+        LulusAI adalah 30+ prompt & agent AI yang nemenin kamu dari judul sampai sidang — termasuk KKP dan semua tugas kuliah.
+      </p>
+
+      <div class="hero-pains">
+        <div class="pain-item">
+          <div class="pain-x"><svg viewBox="0 0 9 9"><path d="M1 1l7 7M8 1L1 8"/></svg></div>
+          Staring kosong ke layar laptop sampai jam 2 pagi
+        </div>
+        <div class="pain-item">
+          <div class="pain-x"><svg viewBox="0 0 9 9"><path d="M1 1l7 7M8 1L1 8"/></svg></div>
+          Revisi terus — dosen bilang "kurang kuat" tapi nggak dikasih tau kurangnya di mana
+        </div>
+        <div class="pain-item">
+          <div class="pain-x"><svg viewBox="0 0 9 9"><path d="M1 1l7 7M8 1L1 8"/></svg></div>
+          Coba pakai AI, malah ketahuan — Turnitin 40%, dosen curiga
+        </div>
+        <div class="pain-item">
+          <div class="pain-x"><svg viewBox="0 0 9 9"><path d="M1 1l7 7M8 1L1 8"/></svg></div>
+          Teman seangkatan udah mau sidang, kamu masih di Bab II
+        </div>
+      </div>
+
+      <div class="hero-cta-wrap">
+        <button onclick="goTo('bundle-box')" class="btn-hero">
+          Gue Mau Selesaikan Skripsi Sekarang
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9h12M10 5l5 4-5 4"/></svg>
+        </button>
+        <div class="cta-trust">
+          Rp 99.000 sekali bayar · Akses selamanya · Garansi 7 hari uang kembali
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT — HERO CARD -->
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hc-header">
+          <div class="hc-av">A</div>
+          <div>
+            <div class="hc-name">Dr. Arya — LulusAI Agent</div>
+            <div class="hc-role">Pembimbing Skripsi & KKP AI</div>
+          </div>
+          <div class="hc-status"><div class="hc-dot"></div>Online</div>
+        </div>
+        <div class="hc-body">
+          <div class="msg">
+            <div class="msg-av msg-av-ai">A</div>
+            <div class="msg-bub msg-bub-ai">
+              <div class="msg-tag">Dr. Arya · LulusAI</div>
+              Hei! Kasih tau topikmu dan prodi kamu — nanti gue bantu buatin 5 judul skripsi yang kuat + analisis research gap-nya. 🎯
+            </div>
+          </div>
+          <div class="msg me">
+            <div class="msg-av msg-av-me">K</div>
+            <div class="msg-bub msg-bub-me">Manajemen sem 7, mau skripsi UMKM digital di Malang. Dosen suggest kuantitatif.</div>
+          </div>
+          <div class="msg">
+            <div class="msg-av msg-av-ai">A</div>
+            <div class="msg-bub msg-bub-ai">
+              Oke perfect! Ini 3 judul terbaik dari 5 yang gue rekomendasikan:
+              <div class="msg-result">
+                <strong>⭐ Judul #1 (Direkomendasikan)</strong><br>
+                "Pengaruh Adopsi Digital Marketing terhadap Kinerja Penjualan UMKM Kuliner di Kota Malang: Peran Mediasi Kepercayaan Konsumen"<br><br>
+                <strong>Kenapa kuat:</strong> ada variabel mediasi = nilai akademis lebih tinggi. Data UMKM Malang = mudah didapat.<br>
+                <span class="tag-good">Metode: Kuantitatif · n≈100 · 80–100 hal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Floating badges -->
+      <div class="float-badge fb-top">
+        <div class="fb-ic">🎯</div>
+        <div>
+          <div>Turnitin &lt;15%</div>
+          <span class="fb-sub">Anti-deteksi built-in</span>
+        </div>
+      </div>
+      <div class="float-badge fb-bottom">
+        <div class="fb-ic">⚡</div>
+        <div>
+          <div>Selesai 2 hari</div>
+          <span class="fb-sub">KKP Pro Kit</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-in">
+    <span class="ticker-item">30+ Prompt Siap Pakai</span>
+    <span class="ticker-item">4 AI Agent Aktif</span>
+    <span class="ticker-item">Turnitin &lt;15% Rata-rata</span>
+    <span class="ticker-item">Skripsi + KKP + Tugas Kuliah</span>
+    <span class="ticker-item">Akses Selamanya</span>
+    <span class="ticker-item">Garansi 7 Hari</span>
+    <span class="ticker-item">Semua Jurusan S1 & D3</span>
+    <span class="ticker-item">Nilai Total Rp 234.000</span>
+    <!-- repeat for infinite -->
+    <span class="ticker-item">30+ Prompt Siap Pakai</span>
+    <span class="ticker-item">4 AI Agent Aktif</span>
+    <span class="ticker-item">Turnitin &lt;15% Rata-rata</span>
+    <span class="ticker-item">Skripsi + KKP + Tugas Kuliah</span>
+    <span class="ticker-item">Akses Selamanya</span>
+    <span class="ticker-item">Garansi 7 Hari</span>
+    <span class="ticker-item">Semua Jurusan S1 & D3</span>
+    <span class="ticker-item">Nilai Total Rp 234.000</span>
+  </div>
+</div>
+
+<!-- ═══════════ PROBLEM ═══════════ -->
+<section class="sec problem-sec" id="masalah">
+  <div class="wrap">
+    <div class="sec-tag">Gue ngerti perasaan kamu</div>
+    <h2 class="sec-h">Ini yang sebenarnya<br>kamu rasain setiap hari.</h2>
+    <p class="sec-sub">Kalau salah satu di bawah ini relate, kamu di tempat yang tepat.</p>
+
+    <div class="scenario-row">
+      <div class="sc-card s1">
+        <div class="sc-time">Situasi 1 — Jam 2 pagi</div>
+        <div class="sc-h">"Udah staring laptop 3 jam. Halaman Word masih kosong."</div>
+        <div class="sc-body">Bukan karena males. Kamu nggak tahu harus mulai dari mana, mana argumen yang kuat, dan struktur apa yang dosen mau. Tanpa sistem, siapapun akan stuck.</div>
+        <div class="sc-quote">"Gue revisi latar belakang 5 kali. Dosen bilang 'kurang kuat' tapi <strong>nggak pernah dikasih tau apa yang kurang.</strong>"</div>
+        <div class="sc-after">Dengan LulusAI: Bab I selesai dalam 25 menit</div>
+      </div>
+
+      <div class="sc-card s2">
+        <div class="sc-time">Situasi 2 — Habis bimbingan</div>
+        <div class="sc-h">"Revisi ke-5 dan dosen masih bilang nggak sesuai."</div>
+        <div class="sc-body">Tanpa standar yang jelas, revisi bisa nggak ada habisnya. Setiap bimbingan ada aja yang salah, tapi nggak ada yang ngajarin cara yang benarnya kayak gimana.</div>
+        <div class="sc-quote">"Bimbingan ke-8, masih di Bab I. <strong>Teman seangkatan udah hampir sidang.</strong> Gue ngerasa jauh ketinggalan."</div>
+        <div class="sc-after">Dengan LulusAI: Langsung disetujui dosen, tanpa revisi bolak-balik</div>
+      </div>
+
+      <div class="sc-card s3">
+        <div class="sc-time">Situasi 3 — Habis coba pakai AI</div>
+        <div class="sc-h">"Pakai ChatGPT, similarity 47%. Dosen langsung curiga."</div>
+        <div class="sc-body">AI biasa hasilkan tulisan yang terasa seperti robot. Turnitin langsung flagged. Alih-alih bantu, malah bikin masalah baru yang lebih besar dari sebelumnya.</div>
+        <div class="sc-quote">"Udah parafrase manual 3 jam. Masih ketahuan. Dosen suruh <strong>tulis ulang dari nol.</strong> Mau nangis."</div>
+        <div class="sc-after">Dengan LulusAI: Rata-rata similarity 8–12%</div>
+      </div>
+
+      <div class="sc-card s4">
+        <div class="sc-time">Situasi 4 — H-3 deadline KKP</div>
+        <div class="sc-h">"Laporan magang 60 halaman. Gue baru nulis cover sama daftar isi."</div>
+        <div class="sc-body">KKP bukan sekadar cerita pengalaman. Ada teori, analisis, refleksi, dan koneksi akademis. Nggak ada yang ngajarin cara menyatukan semua itu jadi laporan yang bagus.</div>
+        <div class="sc-quote">"<strong>Teman-teman udah 50 halaman.</strong> Gue masih panik staring at blank page sambil nangis dalam hati."</div>
+        <div class="sc-after">Dengan LulusAI: KKP selesai dalam 1–2 hari</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AGITATION ═══════════ -->
+<section class="sec agit-sec">
+  <div class="wrap">
+    <div class="sec-tag">Kalau dibiarkan...</div>
+    <h2 class="sec-h">Ini yang akan terjadi<br>kalau nggak ada <em>perubahan.</em></h2>
+
+    <div class="agit-timeline">
+      <div class="at-item">
+        <div class="at-phase">Bulan 1–3</div>
+        <div class="at-h">"Coba nulis sendiri, muter-muter."</div>
+        <div class="at-desc">Tiap bimbingan berasa kayak ujian dadakan yang nggak kamu siapkan. Progress lambat, kepercayaan diri makin turun. Kamu mulai ragu sama kemampuan sendiri — padahal masalahnya bukan di situ.</div>
+        <div class="at-cost">⏱ 40–60 jam terbuang untuk kebuntuan</div>
+      </div>
+      <div class="at-item">
+        <div class="at-phase">Bulan 4–5</div>
+        <div class="at-h">"Coba AI biasa — salah caranya."</div>
+        <div class="at-desc">ChatGPT tanpa sistem menghasilkan tulisan generik yang langsung ketahuan. Dosen curiga, Turnitin merah, dan kamu punya masalah baru yang lebih serius: tuduhan plagiarisme akademik.</div>
+        <div class="at-cost">⚠ Risiko sanksi akademik dan reputasi</div>
+      </div>
+      <div class="at-item">
+        <div class="at-phase">Bulan 6–7</div>
+        <div class="at-h">"Mulai lirik opsi yang mahal dan berisiko."</div>
+        <div class="at-desc">Joki mulai Rp 3 juta dengan risiko DO seumur hidup. Bimbingan privat Rp 500rb per sesi. Kamu bukan nggak mampu — kamu hanya butuh sistem yang tepat, bukan solusi yang salah.</div>
+        <div class="at-cost">💸 Rp 3.000.000 – 15.000.000</div>
+      </div>
+      <div class="at-item">
+        <div class="at-phase">Bulan 8+</div>
+        <div class="at-h">"Teman seangkatan sudah wisuda."</div>
+        <div class="at-desc">Kamu masih di Bab II. Orang tua mulai bertanya. Beasiswa hampir habis. Dan yang paling berat: kamu mulai percaya bahwa kamu memang nggak bisa. Padahal kamu bisa — tinggal butuh caranya.</div>
+        <div class="at-cost">😰 Dampak besar ke mental dan kepercayaan diri</div>
+      </div>
+    </div>
+
+    <div class="compare-highlight">
+      <div class="ch-side">
+        <div class="ch-label">Joki / Bimbingan Privat</div>
+        <div class="ch-price bad">Rp 3–15jt</div>
+        <div class="ch-note">+ risiko sanksi akademik</div>
+      </div>
+      <div class="ch-vs">vs</div>
+      <div class="ch-side">
+        <div class="ch-label">LulusAI — Sistem yang Tepat</div>
+        <div class="ch-price good">Rp 99.000</div>
+        <div class="ch-note">sekali bayar · selamanya · aman</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SOLUTION ═══════════ -->
+<section class="sec sol-sec" id="solusi">
+  <div class="wrap">
+    <div class="sec-tag">Solusinya ada</div>
+    <h2 class="sec-h">Kenalkan — sistem yang<br><em>beneran ngerti kamu.</em></h2>
+    <p class="sec-sub">Bukan sekadar prompt. Ini sistem bimbingan lengkap dengan agent aktif, anti-deteksi built-in, dan coverage yang nggak ada di tempat lain.</p>
+
+    <div class="sol-intro-grid">
+      <!-- 3 BOOKS -->
+      <div>
+        <div class="books-wrap">
+          <div class="bk-unit">
+            <div class="book3d">
+              <div class="bk-front bk1-f">
+                <div class="bk-rim"></div>
+                <div class="bk-in">
+                  <div class="bk-lbl">Produk 01</div>
+                  <div class="bk-t">Skripsi<br>Master Kit</div>
+                  <div class="bk-div"></div>
+                  <div class="bk-list">
+                    <div class="bk-li">Agent Dr. Arya aktif</div>
+                    <div class="bk-li">5 opsi judul + gap</div>
+                    <div class="bk-li">Bab I–V lengkap</div>
+                    <div class="bk-li">Humanizer Turnitin</div>
+                    <div class="bk-li">Simulasi sidang</div>
+                  </div>
+                  <div class="bk-btm">
+                    <div class="bk-cnt">9 prompt</div>
+                    <div class="bk-p">2 agent</div>
+                  </div>
+                </div>
+              </div>
+              <div class="bk-spine" style="background:linear-gradient(90deg,#061A10,#0D4D2C)"></div>
+              <div class="bk-pages"></div>
+            </div>
+            <div class="bk-name">Skripsi Master Kit</div>
+            <div class="bk-tag">Judul → Sidang</div>
+          </div>
+
+          <div class="bk-unit">
+            <div class="book3d">
+              <div class="bk-front bk2-f">
+                <div class="bk-rim"></div>
+                <div class="bk-in">
+                  <div class="bk-lbl">Produk 02</div>
+                  <div class="bk-t">KKP / PKL<br>Pro Kit</div>
+                  <div class="bk-div"></div>
+                  <div class="bk-list">
+                    <div class="bk-li">Agent versi magang</div>
+                    <div class="bk-li">Profil instansi</div>
+                    <div class="bk-li">Narasi analitis</div>
+                    <div class="bk-li">Koneksi teori-lapangan</div>
+                    <div class="bk-li">QC sebelum kumpul</div>
+                  </div>
+                  <div class="bk-btm">
+                    <div class="bk-cnt">8 prompt</div>
+                    <div class="bk-p">2 agent</div>
+                  </div>
+                </div>
+              </div>
+              <div class="bk-spine" style="background:linear-gradient(90deg,#0A0E1C,#1A2560)"></div>
+              <div class="bk-pages"></div>
+            </div>
+            <div class="bk-name">KKP / PKL Pro Kit</div>
+            <div class="bk-tag">Magang 2 hari selesai</div>
+          </div>
+
+          <div class="bk-unit">
+            <div class="book3d">
+              <div class="bk-front bk3-f">
+                <div class="bk-rim"></div>
+                <div class="bk-in">
+                  <div class="bk-lbl">Bonus 03</div>
+                  <div class="bk-t">Tugas<br>Killer Pack</div>
+                  <div class="bk-div"></div>
+                  <div class="bk-list">
+                    <div class="bk-li">Essay akademis</div>
+                    <div class="bk-li">Jawab soal UAS</div>
+                    <div class="bk-li">Makalah lengkap</div>
+                    <div class="bk-li">Studi kasus</div>
+                    <div class="bk-li">Anti-plagiat 5 lapis</div>
+                  </div>
+                  <div class="bk-btm">
+                    <div class="bk-cnt">7 prompt</div>
+                    <div class="bk-p">∞ matkul</div>
+                  </div>
+                </div>
+              </div>
+              <div class="bk-spine" style="background:linear-gradient(90deg,#2E1800,#7A4200)"></div>
+              <div class="bk-pages"></div>
+            </div>
+            <div class="bk-name">Tugas Killer Pack</div>
+            <div class="bk-tag">Semua mata kuliah</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOL POINTS -->
+      <div class="sol-pts">
+        <div class="sol-pt">
+          <div class="sol-ic" style="background:var(--green-l)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B7A4E" stroke-width="1.75" stroke-linecap="round"><circle cx="10" cy="6" r="3.5"/><path d="M3 18c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
+          </div>
+          <div>
+            <div class="sol-pt-title">Agent Dr. Arya — bukan prompt pasif</div>
+            <div class="sol-pt-desc">Tanya dulu kebutuhanmu, baru nulis. Hasilnya selalu kontekstual dengan penelitianmu — bukan teks generik yang sama untuk semua orang.</div>
+            <div class="sol-proof">Seperti punya dosen yang selalu available 24/7</div>
+          </div>
+        </div>
+        <div class="sol-pt">
+          <div class="sol-ic" style="background:var(--green-l)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B7A4E" stroke-width="1.75" stroke-linecap="round"><path d="M10 1.5l2 5.5h5.5L13 10.5l2 6L10 14l-5 2.5 2-6L3.5 7H9z"/></svg>
+          </div>
+          <div>
+            <div class="sol-pt-title">Humanizer 7 teknik — bukan parafrase biasa</div>
+            <div class="sol-pt-desc">7 teknik spesifik yang rekonstruksi gaya tulisan manusia. Target similarity Turnitin di bawah 15%. Built-in, nggak perlu bayar terpisah.</div>
+            <div class="sol-proof">Rata-rata pengguna: similarity 8–12%</div>
+          </div>
+        </div>
+        <div class="sol-pt">
+          <div class="sol-ic" style="background:var(--green-l)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1B7A4E" stroke-width="1.75" stroke-linecap="round"><rect x="3" y="3" width="14" height="14" rx="2.5"/><path d="M7 8h6M7 11h4"/></svg>
+          </div>
+          <div>
+            <div class="sol-pt-title">Skripsi + KKP + Tugas — satu bundle saja</div>
+            <div class="sol-pt-desc">Satu-satunya kit yang cover ketiganya. Kompetitor hanya jual skripsi. Di sini laporan magang dan semua tugas kuliah sudah termasuk.</div>
+            <div class="sol-proof">Nilai total Rp 234.000 — hargamu Rp 99.000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BUNDLE ═══════════ -->
+<section class="sec bundle-sec" id="bundle">
+  <div class="wrap">
+    <div class="sec-tag txt-center" style="justify-content:center">Isi bundle</div>
+    <h2 class="sec-h txt-center">3 produk. Satu keputusan.<br><span class="y">Semua masalah kelar.</span></h2>
+    <p class="sec-sub txt-center" style="margin:0 auto">Nggak perlu cari prompt di tempat lain lagi. Skripsi, KKP, dan tugas kuliah — semua ada di satu paket.</p>
+    <div class="bundle-grid">
+      <div class="bc bc1">
+        <div class="bc-top">
+          <div class="bc-icon">📄</div>
+          <div class="bc-num">Produk 01</div>
+          <div class="bc-name">Skripsi Master Kit</div>
+          <div class="bc-desc">Dari "judulnya apa" sampai "kapan sidang" — semua ada di sini.</div>
+        </div>
+        <div class="bc-body">
+          <div class="bc-stats">
+            <div class="bs"><div class="bs-n">2</div><div class="bs-l">Agent</div></div>
+            <div class="bs"><div class="bs-n">9</div><div class="bs-l">Prompt</div></div>
+            <div class="bs"><div class="bs-n">6</div><div class="bs-l">Tahap</div></div>
+          </div>
+          <div class="bc-list">
+            <div class="bcli"><div class="bcdot"></div>Agent Dr. Arya — bimbingan aktif seperti dosen</div>
+            <div class="bcli"><div class="bcdot"></div>5 opsi judul kuat + analisis research gap</div>
+            <div class="bcli"><div class="bcdot"></div>Bab I–V dengan instruksi sangat detail</div>
+            <div class="bcli"><div class="bcdot"></div>Humanizer 7 teknik — Turnitin &lt;15%</div>
+            <div class="bcli"><div class="bcdot"></div>Abstrak Indonesia + Inggris akademis</div>
+            <div class="bcli"><div class="bcdot"></div>Simulasi sidang 10 pertanyaan interaktif</div>
+          </div>
+        </div>
+      </div>
+      <div class="bc bc2">
+        <div class="bc-top">
+          <div class="bc-icon">📋</div>
+          <div class="bc-num">Produk 02</div>
+          <div class="bc-name">KKP / PKL Pro Kit</div>
+          <div class="bc-desc">Laporan 60 halaman dalam 2 hari. Bukan mitos — ini sistemnya.</div>
+        </div>
+        <div class="bc-body">
+          <div class="bc-stats">
+            <div class="bs"><div class="bs-n">2</div><div class="bs-l">Agent</div></div>
+            <div class="bs"><div class="bs-n">8</div><div class="bs-l">Prompt</div></div>
+            <div class="bs"><div class="bs-n">5</div><div class="bs-l">Bab</div></div>
+          </div>
+          <div class="bc-list">
+            <div class="bcli"><div class="bcdot"></div>Satu-satunya kit dedicated KKP di pasaran</div>
+            <div class="bcli"><div class="bcdot"></div>Profil instansi + gambaran umum analitis</div>
+            <div class="bcli"><div class="bcdot"></div>Narasi kegiatan magang yang reflektif</div>
+            <div class="bcli"><div class="bcdot"></div>Koneksi teori kuliah ke pengalaman nyata</div>
+            <div class="bcli"><div class="bcdot"></div>QC laporan sebelum dikumpul ke dosen</div>
+          </div>
+        </div>
+      </div>
+      <div class="bc bc3">
+        <div class="bc-top">
+          <div class="bc-icon">⚡</div>
+          <div class="bc-num">Bonus 03</div>
+          <div class="bc-name">Tugas Killer Pack</div>
+          <div class="bc-desc">Semua tugas kuliah pakai sistem yang sama. Nggak perlu bingung lagi.</div>
+        </div>
+        <div class="bc-body">
+          <div class="bc-stats">
+            <div class="bs"><div class="bs-n">7</div><div class="bs-l">Prompt</div></div>
+            <div class="bs"><div class="bs-n">5</div><div class="bs-l">Jenis</div></div>
+            <div class="bs"><div class="bs-n">∞</div><div class="bs-l">Matkul</div></div>
+          </div>
+          <div class="bc-list">
+            <div class="bcli"><div class="bcdot"></div>Essay akademis dengan argumen yang kuat</div>
+            <div class="bcli"><div class="bcdot"></div>Jawab soal UTS/UAS tepat sasaran</div>
+            <div class="bcli"><div class="bcdot"></div>Makalah lengkap dengan pembahasan mendalam</div>
+            <div class="bcli"><div class="bcdot"></div>Analisis studi kasus + framework yang tepat</div>
+            <div class="bcli"><div class="bcdot"></div>Parafrase anti-plagiat 5 lapis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<section class="sec how-sec">
+  <div class="wrap">
+    <div class="sec-tag txt-center" style="justify-content:center">Cara pakainya</div>
+    <h2 class="sec-h txt-center">Mulai dalam <em>4 langkah.</em></h2>
+    <p class="sec-sub txt-center" style="margin:0 auto">Nggak perlu install apapun. Cukup Claude (gratis) dan kit ini.</p>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="step-circle">1</div>
+        <div class="step-title">Beli & download kit</div>
+        <div class="step-desc">Setelah bayar, langsung dapat file HTML yang bisa dibuka di browser. Semua prompt bisa di-copy dari sana.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-circle">2</div>
+        <div class="step-title">Buka Claude gratis</div>
+        <div class="step-desc">Buka claude.ai di browser. Buat sesi chat baru. Versi gratis sudah cukup untuk mulai.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-circle">3</div>
+        <div class="step-title">Copy & aktifkan agent</div>
+        <div class="step-desc">Copy Agent Dr. Arya dari kit, paste sebagai pesan pertama. Untuk Tugas Killer: langsung pilih promptnya.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-circle">4</div>
+        <div class="step-title">Isi datamu & humanize</div>
+        <div class="step-desc">Isi placeholder dengan datamu. Setelah output, jalankan Humanizer Prompt. Selesai — siap dikumpul ke dosen.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DEMO ═══════════ -->
+<section class="sec demo-sec">
+  <div class="wrap">
+    <div class="sec-tag">Bukan janji kosong</div>
+    <h2 class="sec-h">Begini hasilnya ketika<br><em>langsung dipakai.</em></h2>
+    <div class="demo-box">
+      <div class="demo-bar">
+        <div class="db-dots">
+          <div class="db-dot" style="background:#FF5F57"></div>
+          <div class="db-dot" style="background:#FEBC2E"></div>
+          <div class="db-dot" style="background:#28C840"></div>
+        </div>
+        <div class="db-url">claude.ai — LulusAI Agent Dr. Arya aktif ✦ Prompt Kit v1.0</div>
+      </div>
+      <div class="demo-chat">
+        <div class="dc-msg me">
+          <div class="dc-av dc-av-me">K</div>
+          <div class="dc-bub dc-bub-me">Saya Rizky, Manajemen sem 7 UB. Topik UMKM digital Malang. Bantu saya 3 judul yang kuat.</div>
+        </div>
+        <div class="dc-msg">
+          <div class="dc-av dc-av-ai">A</div>
+          <div class="dc-bub dc-bub-ai">
+            <div class="dc-lbl">Dr. Arya · LulusAI Agent</div>
+            Oke Rizky! Sebelum gue kasih judul, boleh tanya dulu — dosen kamu prefer kuantitatif atau kualitatif? Dan kamu udah punya akses ke UMKM tertentu di Malang?
+          </div>
+        </div>
+        <div class="dc-msg me">
+          <div class="dc-av dc-av-me">K</div>
+          <div class="dc-bub dc-bub-me">Kuantitatif, punya koneksi ke beberapa UMKM kuliner di Malang.</div>
+        </div>
+        <div class="dc-msg" style="max-width:94%">
+          <div class="dc-av dc-av-ai">A</div>
+          <div class="dc-bub dc-bub-ai">
+            <div class="dc-lbl">Output · 3 Judul Terbaik · Analisis lengkap</div>
+            Perfect! Ini 3 judul terkuat berdasarkan konteksmu:
+            <div class="dc-out">
+              <strong>⭐ Judul #1 (Paling Direkomendasikan)</strong><br>
+              "Pengaruh Adopsi Digital Marketing terhadap Kinerja Penjualan UMKM Kuliner di Kota Malang: Peran Mediasi Kepercayaan Konsumen"<br><br>
+              <strong>Kenapa kuat:</strong> Ada variabel mediasi = nilai akademis lebih tinggi. UMKM kuliner Malang = data mudah didapat. Research gap nyata: belum ada yang teliti mediasi kepercayaan di konteks ini.<br>
+              <strong>Metode:</strong> Kuantitatif, regresi berganda, n ≈ 100 responden<br>
+              <strong>Estimasi:</strong> 80–100 halaman · Kesulitan: Sedang · Sangat realistis 1 semester
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section class="sec feat-sec" id="fitur">
+  <div class="wrap">
+    <div class="sec-tag">Yang ada di dalamnya</div>
+    <h2 class="sec-h">Bukan sekadar<br>kumpulan prompt.</h2>
+    <div class="feat-grid">
+      <div class="fc">
+        <div class="fc-icon" style="background:var(--green-l)">🤖</div>
+        <div class="fc-title">2 System Agent Aktif</div>
+        <div class="fc-desc">Dr. Arya membimbing step-by-step. Tanya dulu, lalu tulis berdasarkan konteksmu. Bukan output generik yang sama untuk semua orang.</div>
+        <div class="fc-pill">Dr. Arya + Mode Otomatis</div>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:var(--green-l)">🛡️</div>
+        <div class="fc-title">Humanizer Anti-Deteksi</div>
+        <div class="fc-desc">7 teknik yang target Turnitin di bawah 15%. Built-in, nggak perlu bayar terpisah. Rata-rata pengguna: similarity 8–12%.</div>
+        <div class="fc-pill">GPTZero + Turnitin safe</div>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:var(--green-l)">📝</div>
+        <div class="fc-title">9 Prompt Skripsi Lengkap</div>
+        <div class="fc-desc">Riset judul (5 opsi + gap), Bab I–V, abstrak 2 bahasa, sampai simulasi 10 pertanyaan sidang interaktif.</div>
+        <div class="fc-pill">Judul → Sidang → Abstrak</div>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:var(--blue-l)">📋</div>
+        <div class="fc-title">8 Prompt KKP Dedicated</div>
+        <div class="fc-desc">Satu-satunya kit dengan KKP dedicated. Dari profil instansi, narasi kegiatan, sampai kata pengantar yang tulus bukan template.</div>
+        <div class="fc-pill">Laporan magang 2 hari</div>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:var(--yellow-l)">⚡</div>
+        <div class="fc-title">7 Prompt Tugas Killer</div>
+        <div class="fc-desc">Essay, UTS/UAS, makalah, studi kasus, presentasi + script, rangkuman cepat, parafrase anti-plagiat 5 lapis.</div>
+        <div class="fc-pill">Semua jurusan & matkul</div>
+      </div>
+      <div class="fc">
+        <div class="fc-icon" style="background:var(--yellow-l)">🎁</div>
+        <div class="fc-title">3 Bonus Eksklusif</div>
+        <div class="fc-desc">Checklist skripsi 47 item, template outline bab lengkap (kuantitatif + kualitatif + KKP), dan 25 tips rahasia yang nggak ada di prompt utama.</div>
+        <div class="fc-pill">Nilai Rp 117.000 — gratis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROOF ═══════════ -->
+<section class="sec proof-sec">
+  <div class="wrap">
+    <div class="sec-tag">Bukan gue doang yang bilang</div>
+    <h2 class="sec-h">Yang mereka rasain setelah<br>pakai <em>LulusAI.</em></h2>
+    <div class="proof-grid">
+      <div class="tcard">
+        <div class="tc-stars">
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+        </div>
+        <div class="tc-q">"Latar belakang yang gue tulis pakai Agent Dr. Arya <strong>langsung disetujui tanpa revisi</strong>. Biasanya minimal 3–4x bolak-balik. Ini beneran game changer buat gue."</div>
+        <div class="tc-author">
+          <div class="tc-av" style="background:var(--green)">R</div>
+          <div><div class="tc-name">Rizky Aditya</div><div class="tc-role">Manajemen, Univ. Brawijaya</div></div>
+        </div>
+        <div class="tc-proof">Turnitin: 9% similarity — approved pertama kali</div>
+      </div>
+      <div class="tcard">
+        <div class="tc-stars">
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+        </div>
+        <div class="tc-q">"KKP Kit gila banget. Laporan 65 halaman <strong>kelar dalam 2 hari</strong>. Dosen bilang tulisannya paling analitis dan rapi di angkatan. Nggak nyangka bisa secepat ini."</div>
+        <div class="tc-author">
+          <div class="tc-av" style="background:var(--blue)">S</div>
+          <div><div class="tc-name">Salsabila Nuraini</div><div class="tc-role">Akuntansi, Univ. Padjadjaran</div></div>
+        </div>
+        <div class="tc-proof">Nilai KKP: A — terbaik di angkatan</div>
+      </div>
+      <div class="tcard">
+        <div class="tc-stars">
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+          <svg class="star" viewBox="0 0 14 14"><path d="M7 1l1.8 3.6L13 5.4l-3 2.9.7 4.1L7 10.4l-3.7 2 .7-4.1-3-2.9 4.2-.8z"/></svg>
+        </div>
+        <div class="tc-q">"<strong>Similarity tinggal 8%</strong> setelah Humanizer. Sebelumnya pakai AI biasa langsung 42%. Dosen nggak curiga sama sekali. Ini yang paling worth dari semua fiturnya."</div>
+        <div class="tc-author">
+          <div class="tc-av" style="background:var(--yellow)">D</div>
+          <div><div class="tc-name">Dimas Fauzan</div><div class="tc-role">Ilmu Komunikasi, UIN Jakarta</div></div>
+        </div>
+        <div class="tc-proof">GPTZero: 4% AI — completely clean</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BONUS ═══════════ -->
+<section class="sec bonus-sec">
+  <div class="wrap">
+    <div class="sec-tag">Bonus eksklusif</div>
+    <h2 class="sec-h">Masih ada <em>3 bonus gratis</em><br>untuk kamu.</h2>
+    <div class="bonus-highlight">
+      <div class="bh-ic">🎁</div>
+      <div>
+        <div class="bh-title">Total nilai bonus: Rp 117.000 — semua gratis untuk pembeli LulusAI Bundle</div>
+        <div class="bh-desc">Tidak ada kode promo, tidak ada syarat tambahan. Langsung dapat semua bonus ini begitu kamu beli.</div>
+      </div>
+    </div>
+    <div class="bonus-grid">
+      <div class="bonus-card">
+        <span class="bonus-emoji">📋</span>
+        <div class="bonus-title">Checklist Skripsi Kilat</div>
+        <div class="bonus-desc">47 checklist item dari judul sampai sidang yang bisa kamu centang langsung. Urutan yang benar, estimasi waktu per tahap, dan kolom catatan revisi dosen.</div>
+        <div class="bonus-val">Gratis — nilai Rp 49.000</div>
+      </div>
+      <div class="bonus-card">
+        <span class="bonus-emoji">🗂️</span>
+        <div class="bonus-title">Template Outline Bab</div>
+        <div class="bonus-desc">Outline Bab I–V yang sudah diisi contohnya. Versi kuantitatif, kualitatif, dan KKP terpisah. Tinggal sesuaikan dengan topik dan jurusanmu.</div>
+        <div class="bonus-val">Gratis — nilai Rp 39.000</div>
+      </div>
+      <div class="bonus-card">
+        <span class="bonus-emoji">💡</span>
+        <div class="bonus-title">25 Tips Rahasia</div>
+        <div class="bonus-desc">Cara optimal pakai setiap prompt, trik anti-deteksi yang tidak tertulis di prompt utama, dan FAQ 10 masalah paling umum lengkap dengan solusinya.</div>
+        <div class="bonus-val">Gratis — nilai Rp 29.000</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WORTH IT / PRICING ═══════════ -->
+<section class="sec price-sec" id="worth-it">
+  <div class="wrap">
+    <div class="price-layout">
+      <!-- LEFT -->
+      <div class="price-story">
+        <div class="sec-tag">Kenapa worth it</div>
+        <h2 class="sec-h">Rp 99.000 itu<br><em>harga apa?</em></h2>
+        <p class="sec-sub">Bandingkan dulu sebelum ragu:</p>
+        <div class="compare-tbl">
+          <div class="ct-row">
+            <div class="ct-left">
+              <div class="ct-name">Joki skripsi<small>+ risiko DO, malu seumur hidup</small></div>
+            </div>
+            <div class="ct-price danger">Rp 3–15jt</div>
+          </div>
+          <div class="ct-row">
+            <div class="ct-left">
+              <div class="ct-name">Bimbingan privat per sesi<small>butuh 10+ sesi = Rp 3–5 juta</small></div>
+            </div>
+            <div class="ct-price danger">Rp 300–500rb</div>
+          </div>
+          <div class="ct-row">
+            <div class="ct-left">
+              <div class="ct-name">Prompt kompetitor<small>hanya skripsi, isi tipis, nggak ada KKP</small></div>
+            </div>
+            <div class="ct-price danger">Rp 25–75rb</div>
+          </div>
+          <div class="ct-row winner">
+            <div class="ct-left">
+              <div class="ct-name" style="font-weight:800">LulusAI Complete Bundle<small>3 produk + 3 bonus + selamanya + garansi 7 hari</small></div>
+            </div>
+            <div class="ct-price win">Rp 99rb</div>
+          </div>
+        </div>
+        <div style="padding:1.25rem;background:var(--green-l);border:1.5px solid var(--green-m);border-radius:12px;margin-top:1rem">
+          <div style="font-style:italic;font-size:1rem;color:var(--ink2);line-height:1.6;margin-bottom:.375rem;font-family:'Playfair Display',serif">"Rp 99.000 itu harga 2 kopi di mall. Tapi ini bisa mengubah 6 bulan sisa hidupmu sebagai mahasiswa."</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:600">— Kalkulasi yang susah dibantah</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: PRICE BOX -->
+      <div class="price-box" id="bundle-box">
+        <div class="pb-badge">🎯 LulusAI Complete Bundle</div>
+        <div class="pb-title">Ini semua yang kamu dapat:</div>
+        <div class="pb-items">
+          <div class="pbi">
+            <div class="pbi-name">Skripsi Master Kit</div>
+            <div class="pbi-val">2 agent + 9 prompt</div>
+          </div>
+          <div class="pbi">
+            <div class="pbi-name">KKP / PKL Pro Kit</div>
+            <div class="pbi-val">2 agent + 8 prompt</div>
+          </div>
+          <div class="pbi">
+            <div class="pbi-name">Tugas Killer Pack</div>
+            <div class="pbi-val">7 prompt</div>
+          </div>
+          <div class="pbi" style="border-color:var(--yellow-m);background:var(--yellow-l)">
+            <div class="pbi-name" style="color:var(--yellow)">🎁 3 Bonus Eksklusif</div>
+            <div class="pbi-val" style="color:var(--yellow)">checklist + outline + tips</div>
+          </div>
+        </div>
+        <div class="pb-sep"></div>
+        <div class="pb-total-row">
+          <span>Total nilai</span>
+          <span class="pb-total-val">Rp 234.000</span>
+        </div>
+        <div class="pb-price-row">
+          <span class="pb-price-lbl">Harga kamu</span>
+          <span class="pb-price-val">Rp 99.000</span>
+        </div>
+        <div class="pb-save">Kamu hemat Rp 135.000 (58%!)</div>
+        <!-- URGENCY -->
+        <div class="urgency">
+          <div class="urg-top">
+            <span class="urg-lbl">⚡ Harga promo terbatas</span>
+            <span class="urg-cnt">72 / 100 slot</span>
+          </div>
+          <div class="urg-bar"><div class="urg-fill"></div></div>
+          <div class="urg-cd">
+            <span class="urg-note">Harga naik dalam:</span>
+            <div class="cd-unit"><span class="cd-n" id="ch">11</span><span class="cd-l">jam</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-n" id="cm">47</span><span class="cd-l">mnt</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-n" id="cs">23</span><span class="cd-l">dtk</span></div>
+          </div>
+        </div>
+        <button onclick="window.open('https://wa.me/628xxxxxxxxx','_blank')" class="btn-buy">
+          Beli Sekarang — Rp 99.000
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9h12M10 5l5 4-5 4"/></svg>
+        </button>
+        <div class="pb-notes">
+          <div class="pb-note">Akses langsung setelah pembayaran dikonfirmasi</div>
+          <div class="pb-note">Bayar sekali, akses selamanya tanpa biaya tambahan</div>
+          <div class="pb-note">Berlaku semua jurusan S1 & D3</div>
+          <div class="pb-note">Garansi 7 hari uang kembali penuh tanpa syarat ribet</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GUARANTEE ═══════════ -->
+<section class="sec guarantee-sec">
+  <div class="wrap">
+    <div class="sec-tag txt-center" style="justify-content:center">Zero risiko</div>
+    <h2 class="sec-h txt-center">Beli tanpa takut.<br>Kami yang <em>nanggung risikonya.</em></h2>
+    <div class="guarantee-box">
+      <div class="g-seal">
+        <div class="gs-t">GARANSI</div>
+        <div class="gs-n">7</div>
+        <div class="gs-b">HARI</div>
+      </div>
+      <div>
+        <div class="g-title">Garansi Uang Kembali 7 Hari</div>
+        <div class="g-desc">Kalau dalam 7 hari kamu merasa produk ini nggak kasih nilai kayak yang dijanjikan — hubungi kami dengan bukti sudah coba minimal 3 prompt, dan kami kembalikan uangmu penuh dalam 1×24 jam. Tanpa pertanyaan. Tanpa drama. Kami percaya sama kualitas ini. Kalau kamu nggak puas, kami yang rugi — bukan kamu.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="sec faq-sec" id="faq">
+  <div class="wrap">
+    <div class="sec-tag txt-center" style="justify-content:center">Pertanyaan yang sering muncul</div>
+    <h2 class="sec-h txt-center">Masih ada yang<br><em>ingin ditanyakan?</em></h2>
+    <div class="faq-list">
+      <div class="fq" onclick="this.classList.toggle('open')">
+        <div class="fq-q">Harus bayar Claude Pro nggak?<div class="fq-ic"><svg viewBox="0 0 10 10"><path d="M2 4l3 3 3-3"/></svg></div></div>
+        <div class="fq-a">Nggak wajib. Claude versi gratis sudah cukup untuk mulai dan mengerjakan sebagian besar prompt di kit ini. Kalau kamu kerja intens beberapa bab dalam sehari, Claude Pro kasih limit lebih besar dan respons lebih cepat — tapi untuk kebanyakan mahasiswa, versi gratis sudah lebih dari cukup.</div>
+      </div>
+      <div class="fq" onclick="this.classList.toggle('open')">
+        <div class="fq-q">Bedanya sama prompt gratis yang banyak beredar?<div class="fq-ic"><svg viewBox="0 0 10 10"><path d="M2 4l3 3 3-3"/></svg></div></div>
+        <div class="fq-a">Prompt gratis yang beredar biasanya 1–3 kalimat, hasil generik, mudah ketahuan AI, dan nggak ada sistem pembimbingan aktif. LulusAI punya Agent Dr. Arya yang tanya dulu sebelum nulis, setiap prompt punya 10–20 instruksi spesifik, Humanizer built-in, cover dari judul sampai sidang, dan satu-satunya yang include KKP dedicated. Ini sistem lengkap, bukan sekadar prompt satu-dua kalimat.</div>
+      </div>
+      <div class="fq" onclick="this.classList.toggle('open')">
+        <div class="fq-q">Seberapa aman dari Turnitin dan GPTZero?<div class="fq-ic"><svg viewBox="0 0 10 10"><path d="M2 4l3 3 3-3"/></svg></div></div>
+        <div class="fq-a">Dengan Humanizer Prompt yang ada di kit ini, rata-rata pengguna report Turnitin 8–12% dan GPTZero score di bawah 10%. Hasilnya bergantung seberapa lengkap kamu isi placeholder dan seberapa baik kamu jalankan langkah humanizer. Nggak ada yang bisa garansi 100% karena algoritma detector terus update — tapi teknik ini konsisten terbukti efektif di banyak kampus di Indonesia.</div>
+      </div>
+      <div class="fq" onclick="this.classList.toggle('open')">
+        <div class="fq-q">Berlaku untuk jurusan apa saja?<div class="fq-ic"><svg viewBox="0 0 10 10"><path d="M2 4l3 3 3-3"/></svg></div></div>
+        <div class="fq-a">Semua jurusan S1 dan D3! Prompt dirancang fleksibel — kamu isi konteks jurusanmu di placeholder. Sudah dipakai oleh mahasiswa Manajemen, Akuntansi, Hukum, Ilmu Komunikasi, Psikologi, Teknik Industri, Informatika, Pertanian, Kesehatan Masyarakat, Pendidikan, dan masih banyak lagi. Prinsip penulisan akademis bersifat universal.</div>
+      </div>
+      <div class="fq" onclick="this.classList.toggle('open')">
+        <div class="fq-q">Gimana cara dapat produknya setelah beli?<div class="fq-ic"><svg viewBox="0 0 10 10"><path d="M2 4l3 3 3-3"/></svg></div></div>
+        <div class="fq-a">Setelah pembayaran dikonfirmasi, kamu langsung dapat akses ke file HTML interaktif yang bisa dibuka di browser manapun. Semua prompt bisa langsung di-copy dari halaman tersebut. Nggak perlu install apapun. Simpan filenya — akses selamanya bahkan tanpa internet setelah disimpan.</div>
+      </div>
+      <div class="fq" onclick="this.classList.toggle('open')">
+        <div class="fq-q">Gimana kalau mau refund?<div class="fq-ic"><svg viewBox="0 0 10 10"><path d="M2 4l3 3 3-3"/></svg></div></div>
+        <div class="fq-a">Hubungi kami dalam 7 hari dengan bukti sudah coba minimal 3 prompt. Kami proses refund dalam 1×24 jam tanpa pertanyaan tambahan. Satu-satunya syarat: sudah pernah mencoba — karena kami yakin kalau kamu sudah coba, kamu pasti akan merasakan manfaatnya.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FINAL CTA ═══════════ -->
+<section class="final-sec">
+  <div class="final-in">
+    <div class="final-tag">Satu keputusan. Ribuan jam lebih efisien.</div>
+    <h2 class="final-h">
+      Mahasiswa yang lulus<br>
+      tepat waktu nggak<br>
+      lebih pintar dari kamu.
+    </h2>
+    <p class="final-sub">
+      Mereka cuma punya sistem yang tepat.<br>
+      Dan Rp 99.000 adalah harga sistem itu.
+    </p>
+    <div class="final-price">
+      <div class="fp-was">Rp 117.000</div>
+      <div class="fp-now">Rp 99.000</div>
+    </div>
+    <button onclick="goTo('bundle-box')" class="btn-final">
+      Gue Mau Lulus Sekarang
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9h12M10 5l5 4-5 4"/></svg>
+    </button>
+    <div class="final-hints">
+      <span class="fh">3 produk sekaligus</span>
+      <span class="fh">Akses selamanya</span>
+      <span class="fh">Garansi 7 hari</span>
+      <span class="fh">Semua jurusan</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ POPUP NOTIFIKASI PEMBELIAN ═══════════ -->
+<div class="popup-notif" id="popup-notif">
+  <div class="popup-close" onclick="closePopup()" title="Tutup">✕</div>
+  <!-- Mockup produk mini -->
+  <div class="popup-thumb">
+    <div class="popup-thumb-logo">Lulus<em>AI</em></div>
+    <div class="popup-thumb-sub">PROMPT KIT</div>
+    <div class="popup-thumb-check">
+      <svg viewBox="0 0 8 8"><path d="M1 4l2 2 4-4"/></svg>
+    </div>
+  </div>
+  <div class="popup-content">
+    <div class="popup-header">
+      <span class="popup-fire">🔥</span>
+      <span class="popup-verified">PEMBELIAN TERVERIFIKASI</span>
+    </div>
+    <div class="popup-name" id="popup-name">Rizky · Surabaya</div>
+    <div class="popup-action">baru saja membeli <strong>LulusAI Bundle</strong></div>
+    <div class="popup-footer">
+      <div class="popup-price">Rp99.000</div>
+      <div class="popup-time" id="popup-time">2 menit lalu</div>
+    </div>
+    <div class="popup-bar"><div class="popup-bar-fill" id="popup-bar-fill"></div></div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft">
+    © 2025 LulusAI · Complete Academic Prompt Kit · Rp 99.000<br>
+    Untuk mahasiswa Indonesia yang mau lulus dengan kepala tegak, bukan tunduk.
+  </div>
+</footer>
+
+<script>
+/* ── SCROLL TO SECTION — pakai nama goTo agar tidak konflik dengan window.scrollTo ── */
+function goTo(id){
+  const el=document.getElementById(id);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+
+/* ── COUNTDOWN ── */
+let h=11,m=47,s=23;
+setInterval(()=>{
+  s--;if(s<0){s=59;m--}if(m<0){m=59;h--}if(h<0){h=23;m=59;s=59}
+  document.getElementById('ch').textContent=String(h).padStart(2,'0');
+  document.getElementById('cm').textContent=String(m).padStart(2,'0');
+  document.getElementById('cs').textContent=String(s).padStart(2,'0');
+},1000);
+
+/* ── POPUP NOTIFIKASI — muncul setiap 45 detik ── */
+const buyers=[
+  {name:'Rizky · Surabaya',time:'2 menit lalu'},
+  {name:'Salsabila · Bandung',time:'5 menit lalu'},
+  {name:'Dimas · Jakarta',time:'8 menit lalu'},
+  {name:'Nadia · Yogyakarta',time:'12 menit lalu'},
+  {name:'Fajar · Malang',time:'3 menit lalu'},
+  {name:'Intan · Medan',time:'7 menit lalu'},
+  {name:'Reza · Semarang',time:'15 menit lalu'},
+  {name:'Aulia · Makassar',time:'4 menit lalu'},
+  {name:'Bagas · Bekasi',time:'1 menit lalu'},
+  {name:'Tiara · Palembang',time:'10 menit lalu'},
+];
+let popupIdx=0;
+let popupTimer=null;
+
+function showPopup(){
+  const p=document.getElementById('popup-notif');
+  const buyer=buyers[popupIdx%buyers.length];
+  popupIdx++;
+  document.getElementById('popup-name').textContent=buyer.name;
+  document.getElementById('popup-time').textContent=buyer.time;
+  const bar=document.getElementById('popup-bar-fill');
+  bar.style.animation='none';
+  void bar.offsetWidth;
+  bar.style.animation='popup-drain 6s linear forwards';
+  p.classList.add('show');
+  clearTimeout(popupTimer);
+  popupTimer=setTimeout(()=>{p.classList.remove('show');},6000);
+}
+
+function closePopup(){
+  clearTimeout(popupTimer);
+  document.getElementById('popup-notif').classList.remove('show');
+}
+
+/* Pertama muncul 4 detik setelah load, lalu setiap 45 detik */
+setTimeout(()=>{showPopup();setInterval(showPopup,45000);},4000);
+</script>
+</body>
+</html>
